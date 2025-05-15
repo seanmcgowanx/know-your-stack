@@ -5,10 +5,27 @@ import GameStatus from './components/GameStatus'
 import LanguageTiles from './components/LanguageTiles'
 import AnswerTiles from './components/AnswerTiles'
 import Keyboard from './components/Keyboard'
+import { words } from './data/words'
+
 
 function App() {
-  const [currentWord, setCurrentWord] = useState("react")
+  //State Values
+  const [currentWord, setCurrentWord] = useState<(string | null)>("")
   const [guessedLetters, setGuessedLetters] = useState<(string | null)[]>([])
+
+  //Derived Values
+
+  const wrongGuessCount = guessedLetters.filter(letter => letter && currentWord && !currentWord.split("").includes(letter)).length
+
+  //Helper Functions
+
+  const getNewWord = () => {
+    const languages = Object.keys(words) as (keyof typeof words)[]
+    const randomLanguage = languages[Math.floor(Math.random() * languages.length)]
+    const randomWords = words[randomLanguage]
+    const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)]
+    setCurrentWord(randomWord)
+  }
 
   const addGuessedLetter = (letter: string) => {
     setGuessedLetters(prev => {
@@ -17,27 +34,28 @@ function App() {
     })    
   }
 
+  //Side Effects
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      const key = e.key.toLowerCase()
-      if (key.match(/^[a-z]$/)) {
-        addGuessedLetter(key)
-      }
-    };
+    getNewWord()
+  }, [])
 
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, []);
-
-  console.log(guessedLetters)
+  //Render
 
   return (
     <>
       <Header />
       <GameStatus />
       <LanguageTiles />
-      <AnswerTiles currentWord={currentWord}/>
-      <Keyboard addGuessedLetter={addGuessedLetter}/>
+      <AnswerTiles 
+        currentWord={currentWord}
+        guessedLetters={guessedLetters}
+      />
+      <Keyboard 
+        addGuessedLetter={addGuessedLetter}
+        currentWord={currentWord}
+        guessedLetters={guessedLetters}
+      />
       <button className='new-game'>New Game</button>
     </>
   );

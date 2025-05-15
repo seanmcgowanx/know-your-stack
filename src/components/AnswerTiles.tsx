@@ -2,14 +2,15 @@ import React from 'react'
 import '../App.css'
 
 interface Props {
-    currentWord: string;
+    currentWord: string | null;
+    guessedLetters: (string | null)[] 
 }
 
-const AnswerTiles = ({ currentWord }: Props) => {
+const AnswerTiles = ({ currentWord, guessedLetters}: Props) => {
     return (
         <section className='word'>
-            {currentWord.split('').map((letter, i) => (
-                <span key={i}>{letter.toUpperCase()}</span>
+            {currentWord?.split('').map((letter, i) => (
+                <span key={i}>{guessedLetters.includes(letter) ? letter.toUpperCase() : ""}</span>
             ))}
         </section>
     )

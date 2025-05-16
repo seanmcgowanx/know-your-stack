@@ -14,6 +14,10 @@ function App() {
   const [currentWord, setCurrentWord] = useState<(string | null)>("")
   const [guessedLetters, setGuessedLetters] = useState<(string | null)[]>([])
 
+  //Derived Values
+
+  const isGameOver = guessedLetters.length >= 8 
+
   //Helper Functions
 
   const getNewWord = () => {
@@ -21,7 +25,7 @@ function App() {
     const randomLanguage = languages[Math.floor(Math.random() * languages.length)]
     const randomWords = words[randomLanguage]
     const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)]
-    setCurrentLanguage(randomLanguage)
+    setCurrentLanguage(randomLanguage?.toLowerCase().replace(/\./g, ''))
     setCurrentWord(randomWord)
   }
 

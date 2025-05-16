@@ -19,12 +19,11 @@ const shuffleArray = (arr: string[]) => {
 
 const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters }: Props) => {
 
-    const fixedCurrentLanguage = currentLanguage?.toLowerCase().replace(/\./g, '')
     const fixedLanguages = languages.map(lang => lang.name.toLowerCase().replace(/\./g, ''))
 
     const wrongLanguages = useMemo(() => {
         return fixedLanguages.filter(
-            lang => lang !== fixedCurrentLanguage
+            lang => lang !== currentLanguage
         )
     }, [currentLanguage])
 
@@ -38,9 +37,6 @@ const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters }: Props) 
 
     const lostLanguages = randomizedWrongLanguages.slice(0, wrongGuessCount || 0)
 
-    console.log(randomizedWrongLanguages)
-    console.log(wrongGuessCount)
-    console.log(lostLanguages)
 
     return (
         <section className='language-tiles'>

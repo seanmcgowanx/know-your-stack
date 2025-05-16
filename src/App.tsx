@@ -9,6 +9,8 @@ import SrOnly from './components/SrOnly';
 import { words } from './data/words'
 import { languages } from './data/languages'
 import { shuffleArray } from './utils/shuffleArray';
+import Confetti from "react-confetti"
+
 
 function App() {
   //State Values
@@ -60,6 +62,11 @@ function App() {
     })    
   }
 
+  const startNewGame = () => {
+    getNewWord()
+    setGuessedLetters([])
+  }
+
   //Side Effects
 
   useEffect(() => {
@@ -70,6 +77,12 @@ function App() {
 
   return (
     <>
+      { isGameWon &&
+          <Confetti 
+            recycle={false}
+            numberOfPieces={1000}
+          />
+      }
       <Header />
       <GameStatus 
         isGameWon={isGameWon}
@@ -88,6 +101,7 @@ function App() {
       <AnswerTiles 
         currentWord={currentWord}
         guessedLetters={guessedLetters}
+        isGameLost={isGameLost}
       />
       <SrOnly 
         currentWord={currentWord}
@@ -101,7 +115,7 @@ function App() {
         guessedLetters={guessedLetters}
         isGameOver={isGameOver}
       />
-      {isGameOver && <button className='new-game'>New Game</button>}
+      {isGameOver && <button onClick={startNewGame} className='new-game'>New Game</button>}
     </>
   );
 }

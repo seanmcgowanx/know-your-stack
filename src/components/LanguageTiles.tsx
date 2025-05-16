@@ -1,18 +1,66 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { languages } from '../data/languages'
+import clsx from 'clsx'
+import '../App.css'
 
-const LanguageTiles = () => {
+interface Props {
+    currentLanguage: string | null
+    currentWord: string | null
+    guessedLetters: (string | null)[] 
+}
+
+const shuffleArray = (arr: string[]) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+}
+
+const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters }: Props) => {
+
+    const fixedCurrentLanguage = currentLanguage?.toLowerCase().replace(/\./g, '')
+    const fixedLanguages = languages.map(lang => lang.name.toLowerCase().replace(/\./g, ''))
+
+    const wrongLanguages = useMemo(() => {
+        return fixedLanguages.filter(
+            lang => lang !== fixedCurrentLanguage
+        )
+    }, [currentLanguage])
+
+    const randomizedWrongLanguages = useMemo(() => {
+        return shuffleArray(wrongLanguages)
+    }, [wrongLanguages])
+
+    const wrongGuessCount = guessedLetters.filter(
+        letter => letter && currentWord && !currentWord.split('').includes(letter)
+    ).length
+
+    const lostLanguages = randomizedWrongLanguages.slice(0, wrongGuessCount || 0)
+
+    console.log(randomizedWrongLanguages)
+    console.log(wrongGuessCount)
+    console.log(lostLanguages)
+
     return (
         <section className='language-tiles'>
-            {languages.map(lang => (
-                <span 
-                    key={lang.name} 
-                    className='tile'
-                    style={{backgroundColor: lang.backgroundColor, color: lang.color}}
-                >
-                    {lang.name}
-                </span>
-            ))}
+            {languages.map(lang => {
+            
+            const isLanguageLost = lostLanguages.includes(lang.name.toLowerCase().replace(/\./g, ''))
+
+                
+                return (
+                    <span 
+                        key={lang.name} 
+                        style={{backgroundColor: lang.backgroundColor, color: lang.color}}
+                        className={clsx('tile', {
+                            lost: isLanguageLost
+                        })}
+                    >
+                        {lang.name}
+                    </span>
+                )
+            })}
         </section>
     )
 }

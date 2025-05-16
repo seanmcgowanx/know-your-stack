@@ -10,12 +10,9 @@ import { words } from './data/words'
 
 function App() {
   //State Values
+  const [currentLanguage, setCurrentLanguage] = useState<(string | null)>("")
   const [currentWord, setCurrentWord] = useState<(string | null)>("")
   const [guessedLetters, setGuessedLetters] = useState<(string | null)[]>([])
-
-  //Derived Values
-
-  const wrongGuessCount = guessedLetters.filter(letter => letter && currentWord && !currentWord.split("").includes(letter)).length
 
   //Helper Functions
 
@@ -24,6 +21,7 @@ function App() {
     const randomLanguage = languages[Math.floor(Math.random() * languages.length)]
     const randomWords = words[randomLanguage]
     const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)]
+    setCurrentLanguage(randomLanguage)
     setCurrentWord(randomWord)
   }
 
@@ -46,7 +44,11 @@ function App() {
     <>
       <Header />
       <GameStatus />
-      <LanguageTiles />
+      <LanguageTiles 
+        currentLanguage={currentLanguage}
+        currentWord={currentWord}
+        guessedLetters={guessedLetters}
+        />
       <AnswerTiles 
         currentWord={currentWord}
         guessedLetters={guessedLetters}

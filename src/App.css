@@ -44,9 +44,11 @@ section.language-tiles {
 span.tile {
     border-radius: 3px;
     padding: 4.5px;
+    position: relative;
 }
 
 span.tile.lost::before {
+    content: "💀";
     position: absolute;
     display: flex;
     align-items: center;

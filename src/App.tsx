@@ -16,7 +16,17 @@ function App() {
 
   //Derived Values
 
-  const isGameOver = guessedLetters.length >= 8 
+  const wrongGuessCount = guessedLetters.filter(
+    letter => letter && currentWord && !currentWord.split('').includes(letter)).length
+
+  const isGameWon = currentWord?.split("").every(letter => guessedLetters.includes(letter))
+  const isGameLost = wrongGuessCount >= 8 
+  const isGameOver = isGameWon || isGameLost
+
+  useEffect(() => {
+    console.log(guessedLetters)
+    console.log(isGameLost)
+  },[guessedLetters])
 
   //Helper Functions
 
@@ -47,11 +57,16 @@ function App() {
   return (
     <>
       <Header />
-      <GameStatus />
+      <GameStatus 
+        isGameWon={isGameWon}
+        isGameLost={isGameLost}  
+        isGameOver={isGameOver}
+      />
       <LanguageTiles 
         currentLanguage={currentLanguage}
         currentWord={currentWord}
         guessedLetters={guessedLetters}
+        wrongGuessCount={wrongGuessCount}
         />
       <AnswerTiles 
         currentWord={currentWord}
@@ -62,7 +77,7 @@ function App() {
         currentWord={currentWord}
         guessedLetters={guessedLetters}
       />
-      <button className='new-game'>New Game</button>
+      {isGameOver && <button className='new-game'>New Game</button>}
     </>
   );
 }

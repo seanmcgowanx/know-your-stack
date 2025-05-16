@@ -6,7 +6,8 @@ import '../App.css'
 interface Props {
     currentLanguage: string | null
     currentWord: string | null
-    guessedLetters: (string | null)[] 
+    guessedLetters: (string | null)[]
+    wrongGuessCount: number
 }
 
 const shuffleArray = (arr: string[]) => {
@@ -17,7 +18,7 @@ const shuffleArray = (arr: string[]) => {
       return arr;
 }
 
-const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters }: Props) => {
+const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters, wrongGuessCount }: Props) => {
 
     const fixedLanguages = languages.map(lang => lang.name.toLowerCase().replace(/\./g, ''))
 
@@ -30,10 +31,6 @@ const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters }: Props) 
     const randomizedWrongLanguages = useMemo(() => {
         return shuffleArray(wrongLanguages)
     }, [wrongLanguages])
-
-    const wrongGuessCount = guessedLetters.filter(
-        letter => letter && currentWord && !currentWord.split('').includes(letter)
-    ).length
 
     const lostLanguages = randomizedWrongLanguages.slice(0, wrongGuessCount || 0)
 

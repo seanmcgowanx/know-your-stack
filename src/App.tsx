@@ -23,11 +23,6 @@ function App() {
   const isGameLost = wrongGuessCount >= 8 
   const isGameOver = isGameWon || isGameLost
 
-  useEffect(() => {
-    console.log(guessedLetters)
-    console.log(isGameLost)
-  },[guessedLetters])
-
   //Helper Functions
 
   const getNewWord = () => {

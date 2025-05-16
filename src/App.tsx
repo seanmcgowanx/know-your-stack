@@ -5,6 +5,7 @@ import GameStatus from './components/GameStatus'
 import LanguageTiles from './components/LanguageTiles'
 import AnswerTiles from './components/AnswerTiles'
 import Keyboard from './components/Keyboard'
+import SrOnly from './components/SrOnly';
 import { words } from './data/words'
 import { languages } from './data/languages'
 import { shuffleArray } from './utils/shuffleArray';
@@ -88,10 +89,17 @@ function App() {
         currentWord={currentWord}
         guessedLetters={guessedLetters}
       />
+      <SrOnly 
+        currentWord={currentWord}
+        guessedLetters={guessedLetters}
+        lastGuessedLetter={lastGuessedLetter}
+        numGuessesLeft={languages.length - 1}
+      />
       <Keyboard 
         addGuessedLetter={addGuessedLetter}
         currentWord={currentWord}
         guessedLetters={guessedLetters}
+        isGameOver={isGameOver}
       />
       {isGameOver && <button className='new-game'>New Game</button>}
     </>

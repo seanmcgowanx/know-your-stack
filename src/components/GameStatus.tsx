@@ -48,7 +48,11 @@ const GameStatus = ({ isGameWon, isGameLost, isGameOver, isLastGuessIncorrect, l
 
     return (
         
-        <section className={gameStatusClass}>
+        <section 
+            aria-live="polite" 
+            role="status" 
+            className={gameStatusClass}
+        >
             {renderGameStatus()}
         </section>
         

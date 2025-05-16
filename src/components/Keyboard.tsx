@@ -6,9 +6,10 @@ interface Props {
     addGuessedLetter: (letter: string) => void;
     currentWord: string | null
     guessedLetters: (string | null)[] 
+    isGameOver: boolean | undefined
 }
 
-const Keyboard = ({ addGuessedLetter, currentWord, guessedLetters }: Props) => {
+const Keyboard = ({ addGuessedLetter, currentWord, guessedLetters, isGameOver }: Props) => {
     const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
     useEffect(() => {
@@ -40,6 +41,9 @@ const Keyboard = ({ addGuessedLetter, currentWord, guessedLetters }: Props) => {
                     key={letter} 
                     onClick={() => addGuessedLetter(letter)}
                     className={className}
+                    disabled={isGameOver}
+                    aria-disabled={guessedLetters.includes(letter)}
+                    aria-label={`Letter ${letter}`}
                 >
                     {letter.toUpperCase()}
                 </button>

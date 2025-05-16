@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 import Header from './components/Header'
 import GameStatus from './components/GameStatus'
@@ -6,7 +6,8 @@ import LanguageTiles from './components/LanguageTiles'
 import AnswerTiles from './components/AnswerTiles'
 import Keyboard from './components/Keyboard'
 import { words } from './data/words'
-
+import { languages } from './data/languages'
+import { shuffleArray } from './utils/shuffleArray';
 
 function App() {
   //State Values
@@ -15,13 +16,30 @@ function App() {
   const [guessedLetters, setGuessedLetters] = useState<(string | null)[]>([])
 
   //Derived Values
-
+  
+  const langNameArr = languages.map(lang => lang.name)
+ 
+  const wrongLanguages = useMemo(() => {
+      return langNameArr.filter(
+          lang => lang.toLowerCase().replace(/\./g, '') !== currentLanguage?.toLowerCase().replace(/\./g, '')
+      )
+  }, [currentLanguage])
+  
+  const randomizedWrongLanguages = useMemo(() => {
+      return shuffleArray(wrongLanguages)
+  }, [wrongLanguages])
+  
   const wrongGuessCount = guessedLetters.filter(
     letter => letter && currentWord && !currentWord.split('').includes(letter)).length
-
+  
+  const lostLanguages = randomizedWrongLanguages.slice(0, wrongGuessCount || 0)
+  const lastLostLanguage = lostLanguages[lostLanguages.length - 1]
   const isGameWon = currentWord?.split("").every(letter => guessedLetters.includes(letter))
   const isGameLost = wrongGuessCount >= 8 
   const isGameOver = isGameWon || isGameLost
+  const lastGuessedLetter = guessedLetters[guessedLetters.length - 1]
+  const isLastGuessIncorrect = lastGuessedLetter ? !currentWord?.includes(lastGuessedLetter) : false
+
 
   //Helper Functions
 
@@ -30,7 +48,7 @@ function App() {
     const randomLanguage = languages[Math.floor(Math.random() * languages.length)]
     const randomWords = words[randomLanguage]
     const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)]
-    setCurrentLanguage(randomLanguage?.toLowerCase().replace(/\./g, ''))
+    setCurrentLanguage(randomLanguage)
     setCurrentWord(randomWord)
   }
 
@@ -56,13 +74,16 @@ function App() {
         isGameWon={isGameWon}
         isGameLost={isGameLost}  
         isGameOver={isGameOver}
+        isLastGuessIncorrect={isLastGuessIncorrect}
+        lastLostLanguage={lastLostLanguage}
       />
       <LanguageTiles 
         currentLanguage={currentLanguage}
         currentWord={currentWord}
         guessedLetters={guessedLetters}
         wrongGuessCount={wrongGuessCount}
-        />
+        lostLanguages={lostLanguages}
+      />
       <AnswerTiles 
         currentWord={currentWord}
         guessedLetters={guessedLetters}

@@ -23,10 +23,21 @@ section.game-status {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     color: #F9F4DA;
     border-radius: 4px;
     margin-block: 30px;
-    padding: 5px;
+    min-height: 60px;
+}
+
+section.game-status.hint {
+    background-color: #7A5EA7;
+    border: 1px dashed #323232;
+}
+
+section.game-status > p.hint {
+    font-style: italic;
+    font-weight: 400;
 }
 
 section.game-status.won {

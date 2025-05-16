@@ -8,38 +8,16 @@ interface Props {
     currentWord: string | null
     guessedLetters: (string | null)[]
     wrongGuessCount: number
+    lostLanguages: string[] | null
 }
 
-const shuffleArray = (arr: string[]) => {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-}
-
-const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters, wrongGuessCount }: Props) => {
-
-    const fixedLanguages = languages.map(lang => lang.name.toLowerCase().replace(/\./g, ''))
-
-    const wrongLanguages = useMemo(() => {
-        return fixedLanguages.filter(
-            lang => lang !== currentLanguage
-        )
-    }, [currentLanguage])
-
-    const randomizedWrongLanguages = useMemo(() => {
-        return shuffleArray(wrongLanguages)
-    }, [wrongLanguages])
-
-    const lostLanguages = randomizedWrongLanguages.slice(0, wrongGuessCount || 0)
-
+const LanguageTiles = ({ currentLanguage, currentWord, guessedLetters, wrongGuessCount, lostLanguages }: Props) => {
 
     return (
         <section className='language-tiles'>
             {languages.map(lang => {
             
-            const isLanguageLost = lostLanguages.includes(lang.name.toLowerCase().replace(/\./g, ''))
+            const isLanguageLost = lostLanguages?.includes(lang.name)
 
                 
                 return (

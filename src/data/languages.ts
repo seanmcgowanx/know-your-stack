@@ -1,4 +1,10 @@
-export const languages = [
+export interface Language {
+    name: string;
+    backgroundColor: string;
+    color: string;
+}
+
+export const languages: Language[] = [
     {
         name: "HTML",
         backgroundColor: "#E2680F",
@@ -38,5 +44,5 @@ export const languages = [
         name: "Ruby",
         backgroundColor: "#D02B2B",
         color: "#F9F4DA",
-    }
-]
+    },
+];

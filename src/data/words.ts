@@ -22,7 +22,7 @@ export const words: WordBank = {
   CSS: [
     "display", "justify", "align", "outline", "zindex", "opacity", "inherit", "initial", "revert", "unset",
     "columns", "filters", "rotate", "scales", "shrink", "static", "relative", "absolute", "fixed", "sticky",
-    "enabled", "visited", "clamped", "rounded", "gradient", "media", "breakpt", "aspect", "blender"
+    "enabled", "visited", "clamped", "gradient", "media", "breakpt", "aspect", "blender"
   ],
   JavaScript: [
     "string", "number", "boolean", "promise", "resolve", "reject", "await", "async", "return", "import",

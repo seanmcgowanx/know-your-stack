@@ -26,7 +26,7 @@ function App() {
       return langNameArr.filter(
           lang => lang.toLowerCase().replace(/\./g, '') !== currentLanguage?.toLowerCase().replace(/\./g, '')
       )
-  }, [currentLanguage])
+  }, [currentLanguage, langNameArr])
   
   const randomizedWrongLanguages = useMemo(() => {
       return shuffleArray(wrongLanguages)

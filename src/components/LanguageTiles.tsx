@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { languages } from '../data/languages'
 import clsx from 'clsx'
 import '../App.css'

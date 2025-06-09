@@ -22,7 +22,7 @@ const Keyboard = ({ addGuessedLetter, currentWord, guessedLetters, isGameOver }:
       
         window.addEventListener('keydown', handler);
         return () => window.removeEventListener('keydown', handler);
-      }, []);
+      }, [addGuessedLetter]);
 
     return (
         <section className='keyboard'>
